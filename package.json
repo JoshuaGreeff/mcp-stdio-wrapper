@@ -9,7 +9,7 @@
   "homepage": "https://github.com/JoshuaGreeff/mcp-stdio-wrapper",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JoshuaGreeff/mcp-stdio-wrapper.git"
+    "url": "git+https://github.com/JoshuaGreeff/mcp-stdio-wrapper.git"
   },
   "bugs": {
     "url": "https://github.com/JoshuaGreeff/mcp-stdio-wrapper/issues"

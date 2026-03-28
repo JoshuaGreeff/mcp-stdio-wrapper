@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
 
       - name: Setup npm 11 for trusted publishing
@@ -46,7 +46,12 @@ jobs:
         if: ${{ env.NPM_TOKEN_PRESENT != '' }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --provenance --access public
+        run: |
+          {
+            echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}"
+            echo "registry=https://registry.npmjs.org/"
+          } > "$RUNNER_TEMP/.npmrc"
+          npm publish --provenance --access public --userconfig "$RUNNER_TEMP/.npmrc"
 
       - name: Publish to npm with trusted publishing
         if: ${{ env.NPM_TOKEN_PRESENT == '' }}

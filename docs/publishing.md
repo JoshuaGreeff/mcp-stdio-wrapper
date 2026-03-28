@@ -31,7 +31,7 @@ npm trusted publishing is the end state, but npm's trust management requires tha
 3. remove `NPM_TOKEN`
 4. let future releases publish through OIDC
 
-This repo's release workflow supports both phases:
+This repo's publish workflow supports both phases:
 
 - if `NPM_TOKEN` exists, it publishes with the token
 - if `NPM_TOKEN` is absent, it attempts trusted publishing with GitHub OIDC
@@ -45,7 +45,7 @@ This repo's release workflow supports both phases:
 5. create an npm account and enable 2FA on that account
 6. add `NPM_TOKEN` as a GitHub Actions secret for the first publish
 7. create a release tag like `v0.1.0`
-8. push the tag to trigger the release workflow
+8. push the tag to trigger the publish workflow
 
 ## Enabling Trusted Publishing For Later Releases
 
@@ -106,7 +106,7 @@ npm run pack:check
 ## Notes
 
 - The trusted publisher configuration is tied to the workflow filename, so if you rename `.github/workflows/release.yml`, update npm trusted publishing too.
-- The release workflow already has `id-token: write`, which npm trusted publishing requires.
+- The publish workflow already has `id-token: write`, which npm trusted publishing requires.
 
 ## Nice-To-Have Later
 

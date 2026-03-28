@@ -64,7 +64,7 @@ npm test
 - `CI`
   - runs syntax checks, tests, and package verification on Windows and Linux across supported Node versions
 - `Release`
-  - validates the repo on tags, builds an npm package tarball, creates a GitHub release, and optionally publishes to npm when `NPM_TOKEN` is configured
+  - validates the repo on tags and publishes the npm package, using token auth for first publish and OIDC trusted publishing afterward
 - `CodeQL`
   - runs JavaScript security scanning
 - `Scorecard`

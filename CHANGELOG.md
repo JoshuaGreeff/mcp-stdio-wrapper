@@ -16,6 +16,7 @@ The format is based on Keep a Changelog and this project follows Semantic Versio
 
 - release workflow now supports first-publish token auth and follow-on npm trusted publishing via GitHub OIDC
 - release packaging and npm metadata were tightened for public distribution
+- automatic GitHub release asset upload was removed so the publish workflow can run with read-only `contents` permissions
 
 ## [0.1.0] - 2026-03-27
 

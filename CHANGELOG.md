@@ -6,10 +6,17 @@ The format is based on Keep a Changelog and this project follows Semantic Versio
 
 ## [Unreleased]
 
+### Added
+
+- property-based fuzz tests and a scheduled fuzz workflow
+- a fuller published security policy with supported versions and reporting expectations
+- a documented `dev` integration branch strategy
+
 ### Changed
 
 - pinned GitHub Actions workflow dependencies to immutable commit SHAs
 - tightened workflow hardening beyond the initial branch protection and token-scope fixes
+- CI, CodeQL, and Fuzz workflows now validate both `main` and `dev`
 
 ## [0.1.1] - 2026-03-28
 

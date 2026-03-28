@@ -10,6 +10,8 @@ The project is intentionally small:
   - tiny stdio target used by tests
 - `tests/wrapper.test.mjs`
   - black-box bridge tests
+- `tests/fuzz.test.mjs`
+  - property-based fuzz tests for core launch helpers
 - `docs/`
   - end-user and maintainer docs
 - `.github/workflows/`
@@ -25,10 +27,20 @@ The project is intentionally small:
 
 This keeps behavior predictable for smoke testing and makes cleanup straightforward.
 
+## Branch Flow
+
+- `main` is the protected release branch
+- `dev` is the integration branch for active development
+- feature branches should normally branch from `dev`
+- promotion to `main` should happen through a PR from `dev`
+
+See [branching.md](./branching.md) for the repo-level workflow.
+
 ## Local Validation
 
 ```bash
 nvm use
+npm install
 npm run check
 npm test
 npm run pack:check
@@ -69,6 +81,8 @@ npm test
   - runs JavaScript security scanning
 - `Scorecard`
   - runs OpenSSF Scorecard checks for public repository hygiene and supply-chain signals
+- `Fuzz`
+  - runs scheduled property-based fuzz tests against core helper behavior
 - `Dependabot`
   - keeps npm packages and GitHub Actions current
 

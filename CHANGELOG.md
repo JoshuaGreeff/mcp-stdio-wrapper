@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog and this project follows Semantic Versioning.
 
+## [Unreleased]
+
+### Changed
+
+- pinned GitHub Actions workflow dependencies to immutable commit SHAs
+- tightened workflow hardening beyond the initial branch protection and token-scope fixes
+
 ## [0.1.1] - 2026-03-28
 
 ### Added

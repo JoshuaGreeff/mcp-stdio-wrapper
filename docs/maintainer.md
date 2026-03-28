@@ -33,6 +33,8 @@ This keeps behavior predictable for smoke testing and makes cleanup straightforw
 - `dev` is the integration branch for active development
 - feature branches should normally branch from `dev`
 - promotion to `main` should happen through a PR from `dev`
+- while the project has a single active maintainer, `main` may use an owner bypass and does not require external approvals
+- when at least one additional trusted maintainer is active, re-enable required approvals, code-owner review, and last-push approval on `main`
 
 See [branching.md](./branching.md) for the repo-level workflow.
 
@@ -85,6 +87,13 @@ npm test
   - runs scheduled property-based fuzz tests against core helper behavior
 - `Dependabot`
   - keeps npm packages and GitHub Actions current
+
+## Repository Governance
+
+- keep `main` on a repository ruleset rather than ad-hoc branch settings
+- keep force-push and deletion blocked on `main`
+- require PRs, passing checks, review-thread resolution, and linear history on `main`
+- keep the owner bypass narrow and temporary while there are no volunteer approvers
 
 ## Future Work
 

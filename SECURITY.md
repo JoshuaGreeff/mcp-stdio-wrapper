@@ -26,10 +26,13 @@ Please report vulnerabilities privately before opening a public issue.
 
 Preferred reporting path:
 
-- GitHub Security Advisories / private vulnerability reporting on this repository
+- GitHub Security Advisories / private vulnerability reporting on this repository:
+  https://github.com/JoshuaGreeff/mcp-stdio-wrapper/security/advisories/new
 
 If private reporting is unavailable, contact the maintainer privately through GitHub rather than opening a public issue first.
 
+- Maintainer contact profile:
+  https://github.com/JoshuaGreeff
 Please include:
 
 - affected version

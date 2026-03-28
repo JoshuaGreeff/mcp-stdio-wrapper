@@ -14,6 +14,7 @@
 - enable GitHub Security Advisories
 - enable Dependabot alerts and security updates
 - keep issues and discussions enabled if you want public feedback
+- if you are the only maintainer, keep the `main` ruleset strict on checks/history but do not require external approvals until more trusted maintainers exist
 
 ## Recommended Secrets
 

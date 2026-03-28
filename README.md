@@ -80,13 +80,15 @@ Start the wrapper:
 npm start
 ```
 
-Once you publish the package to npm, this can also become:
+The published package can also be run directly with:
 
 ```bash
 npx mcp-stdio-wrapper
 ```
 
-This repo is set up for npm trusted publishing from GitHub Actions after the initial package publish. See [Publishing checklist](./docs/publishing.md) for the first-publish and OIDC handoff steps.
+The package is published at `https://www.npmjs.com/package/mcp-stdio-wrapper`.
+
+This repo is set up for npm trusted publishing from GitHub Actions. See [Publishing checklist](./docs/publishing.md) for the initial publish sequence and the OIDC trusted-publishing handoff.
 
 Point your main MCP client at this wrapper, then use one of the bridge tools with launch input like:
 

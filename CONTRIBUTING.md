@@ -6,6 +6,13 @@
 2. `npm run check`
 3. `npm test`
 
+## Branching
+
+- `main` is the protected stable branch
+- `dev` is the integration branch for ongoing work
+- new work should usually branch from `dev` and merge back into `dev`
+- promotion to `main` should happen through a dedicated pull request from `dev`
+
 ## Scope
 
 This project is a generic MCP stdio bridge for development smoke testing.

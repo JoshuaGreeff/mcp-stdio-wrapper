@@ -1,20 +1,18 @@
-name: CI
+name: Fuzz
 
 on:
   push:
     branches: ["main", "dev"]
   pull_request:
+  schedule:
+    - cron: "31 8 * * 1"
+  workflow_dispatch:
 
 permissions: read-all
 
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        node: [20, 22]
+  fuzz:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -22,17 +20,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
-          node-version: ${{ matrix.node }}
+          node-version-file: .nvmrc
           cache: npm
 
       - name: Install
         run: npm ci
 
-      - name: Check
-        run: npm run check
-
-      - name: Test
-        run: npm test
-
-      - name: Package Check
-        run: npm run pack:check
+      - name: Run fuzz tests
+        run: npm run test:fuzz

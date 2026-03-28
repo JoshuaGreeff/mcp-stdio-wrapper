@@ -5,6 +5,7 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { buildLaunchEnv, tailText, usageGuideText } from "./lib/core.mjs";
 
 const server = new McpServer(
   {
@@ -17,35 +18,6 @@ const server = new McpServer(
   },
 );
 
-const usageGuideText = `MCP Stdio Wrapper usage guide
-
-Purpose:
-- Smoke-test another stdio MCP server during active development.
-- Avoid refreshing the main MCP host just to relaunch the real target server after code changes.
-
-Recommended sequence:
-1. Read wrapper://how-to-use or request the tool_usage_guide prompt.
-2. Use stdio_mcp_list_tools against the target server first.
-3. Use stdio_mcp_call_tool against one small safe target tool.
-4. Repeat the same smoke tests after each code change.
-
-Behavior:
-- Every bridge call launches a fresh target process.
-- The wrapper does not keep target session state.
-- Target stderr is surfaced on failures when available.
-
-Important launch fields:
-- command: target executable
-- args: target arguments
-- cwd: optional target working directory
-- inheritParentEnv: merge the wrapper environment into the target launch
-- env: extra target environment variables
-- timeoutMs: operation timeout in milliseconds
-
-Safety:
-- Only launch trusted local target commands.
-- Do not expose this wrapper as a public multi-tenant service.`;
-
 const envSchema = z.record(z.string(), z.string()).default({});
 
 const launchSchema = {
@@ -56,13 +28,6 @@ const launchSchema = {
   env: envSchema.describe("Additional environment variables for the target server."),
   timeoutMs: z.number().int().positive().max(300000).default(30000).describe("Maximum time to allow the target launch and MCP operation before failing."),
 };
-
-function tailText(value, maxChars = 4000) {
-  if (!value) {
-    return "";
-  }
-  return value.length <= maxChars ? value : value.slice(value.length - maxChars);
-}
 
 function textResult(title, data, isError = false) {
   return {
@@ -75,10 +40,6 @@ function textResult(title, data, isError = false) {
     structuredContent: data,
     isError,
   };
-}
-
-function buildLaunchEnv(launch) {
-  return launch.inheritParentEnv ? { ...process.env, ...launch.env } : launch.env;
 }
 
 async function withTimeout(promise, timeoutMs) {

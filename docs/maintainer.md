@@ -28,8 +28,10 @@ This keeps behavior predictable for smoke testing and makes cleanup straightforw
 ## Local Validation
 
 ```bash
+nvm use
 npm run check
 npm test
+npm run pack:check
 ```
 
 ## Release Process
@@ -60,11 +62,13 @@ npm test
 ## GitHub Automation
 
 - `CI`
-  - runs syntax checks and tests on Windows and Linux across supported Node versions
+  - runs syntax checks, tests, and package verification on Windows and Linux across supported Node versions
 - `Release`
   - validates the repo on tags, builds an npm package tarball, creates a GitHub release, and optionally publishes to npm when `NPM_TOKEN` is configured
 - `CodeQL`
   - runs JavaScript security scanning
+- `Scorecard`
+  - runs OpenSSF Scorecard checks for public repository hygiene and supply-chain signals
 - `Dependabot`
   - keeps npm packages and GitHub Actions current
 

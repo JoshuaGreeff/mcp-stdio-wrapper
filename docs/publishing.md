@@ -10,6 +10,7 @@
 
 - enable branch protection on `main`
 - require the `CI` workflow before merge
+- require the `Scorecard` workflow if you want stricter public repo hygiene
 - enable GitHub Security Advisories
 - enable Dependabot alerts and security updates
 - keep issues and discussions enabled if you want public feedback
@@ -48,8 +49,10 @@
 3. run:
 
 ```bash
+nvm use
 npm run check
 npm test
+npm run pack:check
 ```
 
 4. bump `package.json` version

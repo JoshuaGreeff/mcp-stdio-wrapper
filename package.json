@@ -43,7 +43,8 @@
   "scripts": {
     "start": "node index.mjs",
     "check": "node --check index.mjs && node --check tests/fake-target.mjs && node --check tests/wrapper.test.mjs",
-    "test": "node --test tests/wrapper.test.mjs"
+    "test": "node --test tests/wrapper.test.mjs",
+    "pack:check": "npm pack --dry-run"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.27.1",

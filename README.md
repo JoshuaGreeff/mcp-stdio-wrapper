@@ -2,6 +2,7 @@
 
 [![CI](https://img.shields.io/github/actions/workflow/status/JoshuaGreeff/mcp-stdio-wrapper/ci.yml?branch=main&label=ci)](https://github.com/JoshuaGreeff/mcp-stdio-wrapper/actions/workflows/ci.yml)
 [![CodeQL](https://img.shields.io/github/actions/workflow/status/JoshuaGreeff/mcp-stdio-wrapper/codeql.yml?branch=main&label=codeql)](https://github.com/JoshuaGreeff/mcp-stdio-wrapper/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://img.shields.io/github/actions/workflow/status/JoshuaGreeff/mcp-stdio-wrapper/scorecard.yml?branch=main&label=scorecard)](https://github.com/JoshuaGreeff/mcp-stdio-wrapper/actions/workflows/scorecard.yml)
 [![Release](https://img.shields.io/github/actions/workflow/status/JoshuaGreeff/mcp-stdio-wrapper/release.yml?label=release)](https://github.com/JoshuaGreeff/mcp-stdio-wrapper/actions/workflows/release.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/JoshuaGreeff/mcp-stdio-wrapper?style=social)](https://github.com/JoshuaGreeff/mcp-stdio-wrapper/stargazers)
@@ -55,6 +56,7 @@ That means:
 Clone the repo and install dependencies:
 
 ```bash
+nvm use
 npm install
 ```
 

@@ -5,7 +5,7 @@
   "type": "module",
   "license": "MIT",
   "author": "Joshua Greeff",
-  "packageManager": "npm@10",
+  "packageManager": "npm@11.11.1",
   "homepage": "https://github.com/JoshuaGreeff/mcp-stdio-wrapper",
   "repository": {
     "type": "git",

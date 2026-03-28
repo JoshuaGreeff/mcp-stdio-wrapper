@@ -18,7 +18,23 @@
 ## Recommended Secrets
 
 - `NPM_TOKEN`
-  - only needed if you want the release workflow to publish to npm
+  - optional
+  - useful for the first publish if the package does not exist on npm yet
+  - once trusted publishing is configured, remove it so the workflow uses OIDC instead
+
+## Trusted Publishing Strategy
+
+npm trusted publishing is the end state, but npm's trust management requires that the package already exists on the registry. That means the practical sequence is:
+
+1. first publish the package once
+2. configure npm trusted publishing for the package and GitHub workflow
+3. remove `NPM_TOKEN`
+4. let future releases publish through OIDC
+
+This repo's release workflow supports both phases:
+
+- if `NPM_TOKEN` exists, it publishes with the token
+- if `NPM_TOKEN` is absent, it attempts trusted publishing with GitHub OIDC
 
 ## First Publish Steps
 
@@ -26,9 +42,38 @@
 2. push the project contents
 3. confirm Actions are enabled
 4. confirm `CI` passes on the first push
-5. if you want npm publishing, add `NPM_TOKEN`
-6. create a release tag like `v0.1.0`
-7. push the tag to trigger the release workflow
+5. create an npm account and enable 2FA on that account
+6. add `NPM_TOKEN` as a GitHub Actions secret for the first publish
+7. create a release tag like `v0.1.0`
+8. push the tag to trigger the release workflow
+
+## Enabling Trusted Publishing For Later Releases
+
+After the package exists on npm:
+
+1. ensure you can authenticate to npm locally with an account that has write access to `mcp-stdio-wrapper`
+2. use npm `11.10.0` or newer
+3. run:
+
+```bash
+npm trust github mcp-stdio-wrapper --repo JoshuaGreeff/mcp-stdio-wrapper --file release.yml
+```
+
+4. verify the trusted publisher configuration exists:
+
+```bash
+npm trust list mcp-stdio-wrapper
+```
+
+5. remove the `NPM_TOKEN` secret from the GitHub repo
+6. push the next release tag and let GitHub Actions publish via OIDC
+
+If you later want to replace the trusted publisher relationship, use:
+
+```bash
+npm trust list mcp-stdio-wrapper
+npm trust revoke mcp-stdio-wrapper --id <trust-id>
+```
 
 ## Recommended README / About Metadata
 
@@ -57,6 +102,11 @@ npm run pack:check
 
 4. bump `package.json` version
 5. tag the release
+
+## Notes
+
+- The trusted publisher configuration is tied to the workflow filename, so if you rename `.github/workflows/release.yml`, update npm trusted publishing too.
+- The release workflow already has `id-token: write`, which npm trusted publishing requires.
 
 ## Nice-To-Have Later
 

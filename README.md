@@ -72,6 +72,8 @@ Once you publish the package to npm, this can also become:
 npx mcp-stdio-wrapper
 ```
 
+This repo is set up for npm trusted publishing from GitHub Actions after the initial package publish. See [Publishing checklist](./docs/publishing.md) for the first-publish and OIDC handoff steps.
+
 Point your main MCP client at this wrapper, then use one of the bridge tools with launch input like:
 
 ```json

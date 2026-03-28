@@ -42,7 +42,7 @@
   ],
   "scripts": {
     "start": "node index.mjs",
-    "check": "node --check index.mjs && node --check lib/core.mjs && node --check tests/fake-target.mjs && node --check tests/wrapper.test.mjs && node --check tests/fuzz.test.mjs",
+    "check": "node --check index.mjs && node --check lib/core.mjs && node --check lib/session-manager.mjs && node --check tests/fake-target.mjs && node --check tests/wrapper.test.mjs && node --check tests/fuzz.test.mjs",
     "test": "node --test tests/wrapper.test.mjs tests/fuzz.test.mjs",
     "test:fuzz": "node --test tests/fuzz.test.mjs",
     "pack:check": "npm pack --dry-run"

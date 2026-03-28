@@ -19,8 +19,8 @@ The project is intentionally small:
 
 ## Design Constraints
 
-- every bridge tool call launches a fresh target server
-- no persistent target session state
+- one-shot bridge tool calls launch a fresh target server
+- persistent target state is only available through explicit bounded sessions
 - no hidden caching layer
 - stderr from the target process is surfaced in wrapper errors
 - keep the implementation generic and client-agnostic
@@ -105,7 +105,6 @@ npm test
 
 Reasonable future additions:
 
-- optional reusable target sessions
 - target stderr/stdout resource capture
 - target initialize metadata inspection
 - optional HTTP wrapper mode in addition to stdio

@@ -33,7 +33,6 @@ If private reporting is unavailable, contact the maintainer privately through Gi
 
 - Maintainer contact profile:
   https://github.com/JoshuaGreeff
-
 Please include:
 
 - affected version

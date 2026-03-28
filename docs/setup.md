@@ -4,7 +4,7 @@
 
 Use `MCP Stdio Wrapper` when your normal MCP host keeps an older target stdio server process alive and makes your development feedback loop slow or unreliable.
 
-Instead of pointing your agent directly at the target server you are editing, point it at this wrapper. The wrapper launches the real target server on demand for each smoke-test call.
+Instead of pointing your agent directly at the target server you are editing, point it at this wrapper. The wrapper launches the real target server on demand for each smoke-test call and can optionally keep one short-lived target session open across several calls when you need stateful validation.
 
 ## Prerequisites
 
@@ -70,6 +70,18 @@ Recommended first smoke tests:
 
 If the agent needs orientation first, have it read `wrapper://how-to-use` or resolve the `tool_usage_guide` prompt before it starts calling bridge tools.
 
+## Optional Session Workflow
+
+Use the session tools when a single target process must serve multiple MCP operations:
+
+1. `stdio_mcp_open_session`
+2. `stdio_mcp_session_list_tools`
+3. one or more `stdio_mcp_session_call_tool`, `stdio_mcp_session_read_resource`, or `stdio_mcp_session_get_prompt` calls
+4. `stdio_mcp_get_session` if you need wrapper-side diagnostics
+5. `stdio_mcp_close_session`
+
+Sessions are still meant for short-lived smoke tests. The wrapper enforces idle and hard timeouts so abandoned target processes do not linger.
+
 ## Suggested Development Loop
 
 1. keep your editor MCP host connected to `mcp-stdio-wrapper`
@@ -85,6 +97,6 @@ If the agent needs orientation first, have it read `wrapper://how-to-use` or res
 
 ## When Not To Use It
 
-- long-lived proxied sessions
+- long-lived session orchestration that outgrows smoke testing
 - production routing between remote clients and remote MCP servers
-- latency-sensitive workflows that need persistent target sessions
+- latency-sensitive or high-throughput traffic proxying

@@ -28,7 +28,9 @@ The wrapper also exposes built-in guidance that agents can discover directly:
 
 ## How It Works
 
-The wrapper exposes six generic bridge tools:
+The wrapper exposes two modes.
+
+Default one-shot tools:
 
 - `stdio_mcp_list_tools`
 - `stdio_mcp_call_tool`
@@ -37,18 +39,30 @@ The wrapper exposes six generic bridge tools:
 - `stdio_mcp_list_prompts`
 - `stdio_mcp_get_prompt`
 
-Each bridge call:
+Each one-shot bridge call:
 
 1. launches the target stdio MCP server
 2. performs one MCP operation
 3. returns the result
 4. closes the target process
 
+Optional session tools:
+
+- `stdio_mcp_open_session`
+- `stdio_mcp_get_session`
+- `stdio_mcp_close_session`
+- `stdio_mcp_session_list_tools`
+- `stdio_mcp_session_call_tool`
+- `stdio_mcp_session_list_resources`
+- `stdio_mcp_session_read_resource`
+- `stdio_mcp_session_list_prompts`
+- `stdio_mcp_session_get_prompt`
+
 That means:
 
-- no persistent target session state
+- a clean target process per one-shot smoke test
+- an explicit short-lived session option for multi-step validation
 - no hidden caching behavior
-- a clean target process per smoke test
 - easier debugging because target stderr is surfaced on failure
 
 ## Quick Start
@@ -97,6 +111,8 @@ Then ask your agent to:
 - call one target tool after each code change
 - verify resource reads or prompts
 
+If you need to preserve target process state across several calls, open an explicit session first and then use the `stdio_mcp_session_*` tools before closing it.
+
 ## Tool Surface
 
 Common launch fields:
@@ -116,6 +132,18 @@ Bridge operations:
 - `stdio_mcp_read_resource`: read one target resource
 - `stdio_mcp_list_prompts`: inspect target prompts
 - `stdio_mcp_get_prompt`: fetch one target prompt definition
+
+Session operations:
+
+- `stdio_mcp_open_session`: launch one target process and keep it alive for multiple operations
+- `stdio_mcp_get_session`: inspect session diagnostics like status, timestamps, pid, exit code, and stderr tail
+- `stdio_mcp_close_session`: close a live or terminal session and remove its record
+- `stdio_mcp_session_list_tools`: inspect tools through an existing session
+- `stdio_mcp_session_call_tool`: call one target tool through an existing session
+- `stdio_mcp_session_list_resources`: inspect resources through an existing session
+- `stdio_mcp_session_read_resource`: read one target resource through an existing session
+- `stdio_mcp_session_list_prompts`: inspect prompts through an existing session
+- `stdio_mcp_session_get_prompt`: fetch one target prompt definition through an existing session
 
 Wrapper guidance surfaces:
 

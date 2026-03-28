@@ -10,6 +10,8 @@ const server = new McpServer({
   version: "0.1.0",
 });
 
+let counter = 0;
+
 server.registerTool(
   "echo_tool",
   {
@@ -25,6 +27,71 @@ server.registerTool(
 );
 
 server.registerTool(
+  "pid_tool",
+  {
+    description: "Return the current process id.",
+    inputSchema: {},
+  },
+  async () => ({
+    content: [{ type: "text", text: String(process.pid) }],
+    structuredContent: { pid: process.pid },
+  }),
+);
+
+server.registerTool(
+  "counter_tool",
+  {
+    description: "Return and optionally increment a process-local counter.",
+    inputSchema: {
+      incrementBy: z.number().int().default(1),
+    },
+  },
+  async ({ incrementBy }) => {
+    counter += incrementBy;
+    return {
+      content: [{ type: "text", text: String(counter) }],
+      structuredContent: { counter },
+    };
+  },
+);
+
+server.registerTool(
+  "slow_tool",
+  {
+    description: "Wait for a while before responding.",
+    inputSchema: {
+      delayMs: z.number().int().min(0),
+    },
+  },
+  async ({ delayMs }) => {
+    await new Promise((resolve) => setTimeout(resolve, delayMs));
+    return {
+      content: [{ type: "text", text: `waited ${delayMs}` }],
+      structuredContent: { delayMs },
+    };
+  },
+);
+
+server.registerTool(
+  "stderr_tool",
+  {
+    description: "Write lines to stderr and succeed.",
+    inputSchema: {
+      lines: z.array(z.string()).default([]),
+    },
+  },
+  async ({ lines }) => {
+    for (const line of lines) {
+      process.stderr.write(`${line}\n`);
+    }
+    return {
+      content: [{ type: "text", text: String(lines.length) }],
+      structuredContent: { linesWritten: lines.length },
+    };
+  },
+);
+
+server.registerTool(
   "fail_tool",
   {
     description: "Fail after writing to stderr.",
@@ -35,6 +102,20 @@ server.registerTool(
   async ({ reason }) => {
     process.stderr.write(`fake-target failure: ${reason}\n`);
     throw new Error(`tool failed: ${reason}`);
+  },
+);
+
+server.registerTool(
+  "exit_tool",
+  {
+    description: "Exit the target process immediately.",
+    inputSchema: {
+      code: z.number().int().min(0).max(255).default(17),
+    },
+  },
+  async ({ code }) => {
+    process.stderr.write(`fake-target exiting: ${code}\n`);
+    process.exit(code);
   },
 );
 

@@ -1,6 +1,6 @@
 {
   "name": "mcp-stdio-wrapper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Development-first MCP wrapper for smoke-testing stdio MCP servers from another MCP client during active development.",
   "type": "module",
   "license": "MIT",

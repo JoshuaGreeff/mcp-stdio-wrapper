@@ -88,6 +88,12 @@ npm test
 - `Dependabot`
   - keeps npm packages and GitHub Actions current
 
+## Known Scorecard Backlog
+
+- keep the remaining open Scorecard findings visible until they are actually resolved
+- track follow-up in GitHub issue `#7` rather than dismissing the alerts:
+  `Track remaining Scorecard backlog after repository hardening`
+
 ## Repository Governance
 
 - keep `main` on a repository ruleset rather than ad-hoc branch settings

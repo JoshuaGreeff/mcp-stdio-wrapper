@@ -58,9 +58,12 @@ Use one of the wrapper bridge tools with launch input like:
   "env": {
     "YOUR_ENV": "value"
   },
-  "timeoutMs": 30000
+  "startupTimeoutMs": 30000,
+  "operationTimeoutMs": 30000
 }
 ```
+
+Use one-shot mode first for stateless inspection. Switch to a wrapper session when the target returns handles like `jobId`, expects process-local state between calls, or simply takes long enough to start that repeated launch noise gets in the way.
 
 Recommended first smoke tests:
 
@@ -79,6 +82,13 @@ Use the session tools when a single target process must serve multiple MCP opera
 3. one or more `stdio_mcp_session_call_tool`, `stdio_mcp_session_read_resource`, or `stdio_mcp_session_get_prompt` calls
 4. `stdio_mcp_get_session` if you need wrapper-side diagnostics
 5. `stdio_mcp_close_session`
+
+Typical session triggers:
+
+- the target result includes `jobId`, `sessionId`, `relatedUpid`, or `waitMode: deferred`
+- the target exposes `job_*` or similar follow-up tools
+- the next call must hit the same in-memory target state
+- startup is expensive and you plan several sequential calls
 
 Sessions are still meant for short-lived smoke tests. The wrapper enforces idle and hard timeouts so abandoned target processes do not linger.
 

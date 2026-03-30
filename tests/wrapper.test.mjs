@@ -69,6 +69,7 @@ test("lists tools from a target stdio MCP server", async () => {
     assert.equal(result.isError, false);
     const names = result.structuredContent.tools.map((tool) => tool.name);
     assert.ok(names.includes("echo_tool"));
+    assert.match(result.structuredContent.wrapperHints[0], /stdio_mcp_open_session/);
   });
 });
 
@@ -81,6 +82,7 @@ test("exposes a wrapper usage resource", async () => {
     const result = await client.readResource({ uri: "wrapper://how-to-use" });
     assert.match(JSON.stringify(result), /stdio_mcp_list_tools/);
     assert.match(JSON.stringify(result), /stdio_mcp_open_session/);
+    assert.match(JSON.stringify(result), /jobId/);
   });
 });
 
@@ -106,6 +108,21 @@ test("calls a target MCP tool", async () => {
 
     assert.equal(result.structuredContent.isError, false);
     assert.equal(result.structuredContent.structuredContent.echoed, "wrapper-ok");
+    assert.equal(result.structuredContent.wrapperHints, null);
+  });
+});
+
+test("adds a wrapper hint when a one-shot tool result looks stateful", async () => {
+  await withWrapper(async (client) => {
+    const result = await callWrapperTool(client, "stdio_mcp_call_tool", {
+      ...launchInput(),
+      name: "deferred_handle_tool",
+      arguments: {},
+    });
+
+    assert.equal(result.isError, false);
+    assert.equal(result.structuredContent.structuredContent.jobId, "job-123");
+    assert.match(result.structuredContent.wrapperHints[0], /stdio_mcp_open_session/);
   });
 });
 
@@ -154,6 +171,30 @@ test("includes target stderr details when the target tool fails", async () => {
 
     assert.equal(result.isError, true);
     assert.match(result.structuredContent.stderrTail, /fake-target failure: boom/);
+  });
+});
+
+test("supports split one-shot startup and operation timeouts", async () => {
+  await withWrapper(async (client) => {
+    const startupTimeout = await callWrapperTool(client, "stdio_mcp_list_tools", {
+      ...launchInput(),
+      env: {
+        FAKE_TARGET_STARTUP_DELAY_MS: "200",
+      },
+      startupTimeoutMs: 50,
+    });
+    assert.equal(startupTimeout.isError, true);
+    assert.match(toolText(startupTimeout), /Target launch and MCP initialize timed out after 50 ms/);
+
+    const operationTimeout = await callWrapperTool(client, "stdio_mcp_call_tool", {
+      ...launchInput(),
+      name: "slow_tool",
+      arguments: { delayMs: 200 },
+      startupTimeoutMs: 1000,
+      operationTimeoutMs: 50,
+    });
+    assert.equal(operationTimeout.isError, true);
+    assert.match(toolText(operationTimeout), /Target MCP operation timed out after 50 ms/);
   });
 });
 

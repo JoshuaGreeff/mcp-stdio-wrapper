@@ -10,7 +10,7 @@ The project is intentionally small:
   - tiny stdio target used by tests
 - `tests/wrapper.test.mjs`
   - black-box bridge tests
-- `tests/fuzz.test.mjs`
+- `tests/fuzz.test.js`
   - property-based fuzz tests for core launch helpers
 - `docs/`
   - end-user and maintainer docs
@@ -93,6 +93,8 @@ npm test
 - keep the remaining open Scorecard findings visible until they are actually resolved
 - track follow-up in GitHub issue `#7` rather than dismissing the alerts:
   `Track remaining Scorecard backlog after repository hardening`
+- expect some findings to remain external or time-based even after the in-repo fixes land:
+  `Maintained`, `Contributors`, `CII-Best-Practices`, and any unsigned historical releases
 
 ## Repository Governance
 

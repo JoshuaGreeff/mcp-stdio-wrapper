@@ -101,7 +101,8 @@ Point your main MCP client at this wrapper, then use one of the bridge tools wit
   "env": {
     "EXAMPLE_ENV": "value"
   },
-  "timeoutMs": 30000
+  "startupTimeoutMs": 30000,
+  "operationTimeoutMs": 30000
 }
 ```
 
@@ -111,7 +112,7 @@ Then ask your agent to:
 - call one target tool after each code change
 - verify resource reads or prompts
 
-If you need to preserve target process state across several calls, open an explicit session first and then use the `stdio_mcp_session_*` tools before closing it.
+Use one-shot mode for initial inspection and small stateless calls. If the target returns `jobId`-style handles, expects in-memory state between calls, or simply has expensive startup, open an explicit session first and then use the `stdio_mcp_session_*` tools before closing it.
 
 ## Tool Surface
 
@@ -122,7 +123,9 @@ Common launch fields:
 - `cwd`: optional target working directory
 - `inheritParentEnv`: when `true`, merge the wrapper process environment into the target launch
 - `env`: additional target environment variables
-- `timeoutMs`: max time for target launch and operation
+- `startupTimeoutMs`: optional one-shot startup and MCP initialize timeout
+- `operationTimeoutMs`: optional one-shot operation timeout
+- `timeoutMs`: legacy one-shot shortcut for both phases; session tools still use `timeoutMs`
 
 Bridge operations:
 
@@ -149,6 +152,12 @@ Wrapper guidance surfaces:
 
 - `wrapper://how-to-use`: plain-text usage guide
 - `tool_usage_guide`: prompt form of the same instructions
+
+Session mode is the better fit when:
+
+- the target returns deferred handles like `jobId`
+- follow-up calls must hit the same live target process
+- target startup is expensive enough that repeating it obscures the real feedback loop
 
 ## Safety Notes
 

@@ -99,6 +99,14 @@ npm test
 - keep `main` on a repository ruleset rather than ad-hoc branch settings
 - keep force-push and deletion blocked on `main`
 - require PRs, passing checks, review-thread resolution, and linear history on `main`
+- keep the live required checks list aligned with the ruleset:
+  - `analysis`
+  - `analyze (javascript-typescript)`
+  - `fuzz`
+  - `test (ubuntu-latest, 20)`
+  - `test (ubuntu-latest, 22)`
+  - `test (windows-latest, 20)`
+  - `test (windows-latest, 22)`
 - keep the owner bypass narrow and temporary while there are no volunteer approvers
 
 ## Future Work

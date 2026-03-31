@@ -73,6 +73,21 @@ server.registerTool(
 );
 
 server.registerTool(
+  "deferred_handle_tool",
+  {
+    description: "Return a stateful-looking deferred handle.",
+    inputSchema: {},
+  },
+  async () => ({
+    content: [{ type: "text", text: "job-123" }],
+    structuredContent: {
+      jobId: "job-123",
+      waitMode: "deferred",
+    },
+  }),
+);
+
+server.registerTool(
   "stderr_tool",
   {
     description: "Write lines to stderr and succeed.",
@@ -151,4 +166,8 @@ server.registerPrompt(
 );
 
 const transport = new StdioServerTransport();
+const startupDelayMs = Number.parseInt(process.env.FAKE_TARGET_STARTUP_DELAY_MS ?? "0", 10);
+if (Number.isFinite(startupDelayMs) && startupDelayMs > 0) {
+  await new Promise((resolve) => setTimeout(resolve, startupDelayMs));
+}
 await server.connect(transport);

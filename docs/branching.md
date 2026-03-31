@@ -37,18 +37,20 @@ Recommended:
 - require pull requests and passing checks on `main`
 - optionally allow a lighter rule set on `dev` if you want faster integration
 
-Suggested required checks on `main`:
+Current live `main` ruleset requires:
 
 - `CI`
+  - matrix `test` jobs on Windows and Linux for Node `20` and `22`
 - `CodeQL`
+  - `analyze (javascript-typescript)`
 - `Scorecard`
+  - `analysis`
 - `Fuzz`
+  - `fuzz`
 
-Suggested required checks on `dev`:
+Reasonable future tightening:
 
-- `CI`
-- `CodeQL`
-- `Fuzz`
+- require additional review approvals once there is at least one trusted non-owner reviewer
 
 ## Notes
 

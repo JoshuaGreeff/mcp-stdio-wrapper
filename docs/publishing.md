@@ -36,6 +36,7 @@ This repo's publish workflow supports both phases:
 
 - if `NPM_TOKEN` exists, it publishes with the token
 - if `NPM_TOKEN` is absent, it attempts trusted publishing with GitHub OIDC
+- the workflow bootstraps npm `11.11.1` from a SHA-512-verified tarball and adds the extracted CLI to `PATH` rather than installing it globally
 
 ## First Publish Steps
 

@@ -22,6 +22,7 @@ The format is based on Keep a Changelog and this project follows Semantic Versio
 - tightened workflow hardening beyond the initial branch protection and token-scope fixes
 - CI, CodeQL, and Fuzz workflows now validate both `main` and `dev`
 - the live `main` ruleset now requires the `fuzz` check alongside CI, CodeQL, and Scorecard
+- the release workflow now bootstraps npm `11.11.1` from a hash-verified tarball without a global install step, and the fuzz test file uses a Scorecard-recognized `.js` entrypoint
 
 ## [0.1.1] - 2026-03-28
 

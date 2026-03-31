@@ -20,7 +20,12 @@ If you want a minimal isolated target environment, set `inheritParentEnv` to `fa
 
 ## The Call Hangs
 
-Set or lower `timeoutMs`.
+For one-shot tools:
+
+- raise `startupTimeoutMs` if the target is slow to boot or slow to finish MCP initialize
+- raise `operationTimeoutMs` if the target starts successfully but the actual tool, resource, or prompt operation is slow
+
+For `stdio_mcp_open_session` and the `stdio_mcp_session_*` tools, adjust `timeoutMs`.
 
 Common causes:
 
@@ -49,5 +54,7 @@ Each bridge call launches a fresh target process, so this project is best for:
 
 - smoke tests
 - repeated sanity checks during development
+
+If the startup cost is the main problem, switch to the explicit session tools for a short bounded run instead of repeating one-shot launches.
 
 It is not designed as a persistent low-latency proxy.
